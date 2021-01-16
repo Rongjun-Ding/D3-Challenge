@@ -26,4 +26,22 @@ var chartGroup = svg.append("g")
 // Import Census Data 
 d3.csv("D3_data_journalism/data/data.csv").then(function(censusData) {
 
-    
+    // Step 1: Parse Data/Cast as numbers
+  // ==============================
+  censusData.forEach(function(data) {
+    data.poverty = +data.poverty;
+    data.healthcare = +data.healthcare;
+    console.log(data.poverty, data.healthcare);
+  });
+
+  // Step 2: Create scale functions
+  // ==============================
+  var xLinearScale = d3.scaleLinear()
+    .domain([8, d3.max(censusData, d => d.poverty)])
+    .range([0, width]);
+
+  var yLinearScale = d3.scaleLinear()
+    .domain([0, d3.max(censusData, d => d.healthcare)])
+    .range([height, 0]);
+
+});
