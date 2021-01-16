@@ -74,7 +74,30 @@ d3.csv("D3_data_journalism/data/data.csv").then(function(censusData) {
     })
     .attr("opacity", ".5");
 
-    
+    // Append text to Cirle Group
+  circles.append("text")
+  .text(function(d){
+    return d.abbr;
+  })
+  .attr("dx", d => xLinearScale(d.poverty))
+  .attr("dy", d => yLinearScale(d.healthcare)+10/2.5)
+  .attr("font-size","9")
+  .attr("class","stateText")
+  .on("mouseover", function(data, index) {
+    toolTip.show(data,this);
+d3.select(this).style("stroke","#323232")
+  })
+  .on("mouseout", function(data, index) {
+      toolTip.hide(data,this)
+    d3.select(this).style("stroke","#e3e3e3")
+  });
+  chart.append("g")
+  .attr("transform", `translate(0, ${height})`)
+  .call(bottomAxis);
+chart.append("g")
+  .call(leftAxis);
+
+
 
 
 });
