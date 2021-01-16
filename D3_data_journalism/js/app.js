@@ -20,7 +20,7 @@ var svg = d3.select("#scatter")
 
 
 // Append a group to the SVG area translate it to the right and to the bottom
-var chartGroup = svg.append("g")
+var chart = svg.append("g")
 .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Import Census Data 
@@ -51,11 +51,30 @@ d3.csv("D3_data_journalism/data/data.csv").then(function(censusData) {
 
   // Step 4: Append Axes to the chart
   
-  chartGroup.append("g")
+  chart.append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(bottomAxis);
 
-  chartGroup.append("g")
+  chart.append("g")
     .call(leftAxis);
+
+// Step 5: Create Circles
+ 
+  var circles = chart.selectAll("circle")
+    .data(censusData)
+    .enter();
+  circles.append("circle")
+    .attr("cx", d => xLinearScale(d.poverty))
+    .attr("cy", d => yLinearScale(d.healthcare))
+    .attr("r", "10")
+    .attr("fill", "blue")
+    .attr("class", "stateCircle")
+    .text(function(d){
+        return d.abbr;
+    })
+    .attr("opacity", ".5");
+
+    
+
 
 });
